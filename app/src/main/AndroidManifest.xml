@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.o3dr.hellodrone" >
+    package="com.lingmutec.buqing2009">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <!--<uses-permission android:name="android.permission.GET_TASKS" />-->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!-- SD卡读取权限，用户写入离线定位数据-->
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"></uses-permission>
     <!-- 用于读取手机当前的状态-->
@@ -22,22 +22,29 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote" >
+            android:process=":remote">
             <!--<intent-filter>-->
             <!--<action android:name="com.baidu.location.service_v2.2" >-->
             <!--</action>-->
             <!--</intent-filter>-->
         </service>
+
+        <!-- Ubuntu14.04-->
+        <!--<meta-data-->
+        <!--android:name="com.baidu.lbsapi.API_KEY"-->
+        <!--android:value="w476GBw7iCUx3cX745eSAycy" />-->
+
+        <!-- Mac-->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="w476GBw7iCUx3cX745eSAycy" />
+            android:value="xhZni5WX4gh1DEnyRLmg5zoY" />
         <activity
             android:name=".MainFragment"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -45,11 +52,11 @@
             </intent-filter>
         </activity>
         <!--<activity android:name=".BaiduMapActivity"-->
-            <!--android:label="@string/baidumap_name">-->
+        <!--android:label="@string/baidumap_name">-->
         <!--</activity>-->
 
         <!--<activity android:name=".DronekitFragment"-->
-            <!--android:label="@string/dronekit_name">-->
+        <!--android:label="@string/dronekit_name">-->
         <!--</activity>-->
     </application>
 

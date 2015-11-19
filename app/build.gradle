@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "com.o3dr.hellodrone"
+        applicationId "com.lingmutec.buqing2009"
         minSdkVersion 14
         targetSdkVersion 23
         versionCode 2
