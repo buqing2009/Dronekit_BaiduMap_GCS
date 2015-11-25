@@ -120,16 +120,16 @@ public class BaiduMapFragment extends Fragment implements View.OnClickListener {
         });
 
         //下面获取Dronekit Fragment的GPS信息
-        FragmentManager fragmentManager = this.getActivity().getSupportFragmentManager();
-        DronekitFragment dronekitFragment = (DronekitFragment) fragmentManager.findFragmentById(R.id.dronekit);
-        if (dronekitFragment.isGPSReturn()) {
-            Double[] gpsPos = dronekitFragment.getGPSPos();
-            if (gpsPos[0] != null && gpsPos[1] != null) {
-                LatLng dronePos = new LatLng(gpsPos[0], gpsPos[1]);
-                OverlayOptions options = new MarkerOptions().position(dronePos).icon(droneMarker);
-                bdMap.addOverlay(options);
-            }
-        }
+//        FragmentManager fragmentManager = this.getActivity().getSupportFragmentManager();
+//        DronekitFragment dronekitFragment = (DronekitFragment) fragmentManager.findFragmentById(R.id.dronekit);
+//        if (dronekitFragment.isGPSReturn()) {
+//            Double[] gpsPos = dronekitFragment.getGPSPos();
+//            if (gpsPos[0] != null && gpsPos[1] != null) {
+//                LatLng dronePos = new LatLng(gpsPos[0], gpsPos[1]);
+//                OverlayOptions options = new MarkerOptions().position(dronePos).icon(droneMarker);
+//                bdMap.addOverlay(options);
+//            }
+//        }
 
     }
 
