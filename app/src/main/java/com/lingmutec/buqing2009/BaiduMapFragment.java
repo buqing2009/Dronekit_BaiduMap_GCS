@@ -1,8 +1,11 @@
 package com.lingmutec.buqing2009;
 
 import android.app.Activity;
+//import android.app.FragmentManager;
+import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,14 +22,17 @@ import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.map.Overlay;
+import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 
 /**
  * Created by buqing2009 on 15-11-16.
  */
-public class BaiduMapActivity extends Fragment implements View.OnClickListener{
+public class BaiduMapFragment extends Fragment implements View.OnClickListener {
     private MapView mMapView = null;
     private BaiduMap bdMap;
     //    private MapController mMapController = null;
@@ -38,14 +44,13 @@ public class BaiduMapActivity extends Fragment implements View.OnClickListener{
     private LocationClient mLocationClient = null;
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //在使用SDK各组件之前初始化context信息，传入ApplicationContext
         //注意该方法要再setContentView方法之前实现
         SDKInitializer.initialize(getActivity().getApplicationContext());
-        return inflater.inflate(R.layout.baidumap,null);
+        return inflater.inflate(R.layout.baidumap, null);
     }
 
     @Override
@@ -60,9 +65,14 @@ public class BaiduMapActivity extends Fragment implements View.OnClickListener{
         MapStatusUpdate msu = MapStatusUpdateFactory.zoomTo(15f);
         bdMap.setMapStatus(msu);
 
+
+        //新建drone的marker
+        BitmapDescriptor droneMarker = BitmapDescriptorFactory.fromResource(R.drawable.drone_marker);
+
+
         // 定位初始化
         mLocationClient = new LocationClient(this.getActivity().getApplicationContext());
-        firstLocation =true;
+        firstLocation = true;
 
         // 设置定位的相关配置
         LocationClientOption option = new LocationClientOption();
@@ -77,8 +87,8 @@ public class BaiduMapActivity extends Fragment implements View.OnClickListener{
         MyLocationConfiguration config = new MyLocationConfiguration(
                 MyLocationConfiguration.LocationMode.FOLLOWING, true, myMarker);
 
-        Button btn_sel_map_type = (Button)getActivity().findViewById(R.id.mtype_select_bottom);
-        Button btn_locate_map = (Button)getActivity().findViewById(R.id.mlocate_bottom);
+        Button btn_sel_map_type = (Button) getActivity().findViewById(R.id.mtype_select_bottom);
+        Button btn_locate_map = (Button) getActivity().findViewById(R.id.mlocate_bottom);
 
         btn_sel_map_type.setOnClickListener(this);
         btn_locate_map.setOnClickListener(this);
@@ -108,52 +118,67 @@ public class BaiduMapActivity extends Fragment implements View.OnClickListener{
                 }
             }
         });
+
+        //下面获取Dronekit Fragment的GPS信息
+        FragmentManager fragmentManager = this.getActivity().getSupportFragmentManager();
+        DronekitFragment dronekitFragment = (DronekitFragment) fragmentManager.findFragmentById(R.id.dronekit);
+        if (dronekitFragment.isGPSReturn()) {
+            Double[] gpsPos = dronekitFragment.getGPSPos();
+            if (gpsPos[0] != null && gpsPos[1] != null) {
+                LatLng dronePos = new LatLng(gpsPos[0], gpsPos[1]);
+                OverlayOptions options = new MarkerOptions().position(dronePos).icon(droneMarker);
+                bdMap.addOverlay(options);
+            }
+        }
+
     }
 
     @Override
-    public void onStart()
-    {
+    public void onStart() {
         // 如果要显示位置图标,必须先开启图层定位
         bdMap.setMyLocationEnabled(true);
         super.onStart();
     }
+
     @Override
-    public void onStop()
-    {
+    public void onStop() {
         // 关闭图层定位
         bdMap.setMyLocationEnabled(false);
         mLocationClient.stop();
         super.onStop();
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
         //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
         mMapView.onDestroy();
     }
+
     @Override
     public void onResume() {
         super.onResume();
         //在activity执行onResume时执行mMapView. onResume ()，实现地图生命周期管理
         mMapView.onResume();
     }
+
     @Override
     public void onPause() {
         super.onPause();
         //在activity执行onPause时执行mMapView. onPause ()，实现地图生命周期管理
         mMapView.onPause();
     }
-    protected void selectMap(){
-        if(bdMap.getMapType()==BaiduMap.MAP_TYPE_NORMAL){
+
+    protected void selectMap() {
+        if (bdMap.getMapType() == BaiduMap.MAP_TYPE_NORMAL) {
             bdMap.setMapType(BaiduMap.MAP_TYPE_SATELLITE);
-        }else{
+        } else {
             bdMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
         }
     }
 
-    protected void blu_locate(){
-        if (!mLocationClient.isStarted())
-        {
+    protected void blu_locate() {
+        if (!mLocationClient.isStarted()) {
             mLocationClient.start();
         }
 
@@ -161,7 +186,7 @@ public class BaiduMapActivity extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.mtype_select_bottom:
                 selectMap();
                 break;

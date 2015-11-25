@@ -40,6 +40,7 @@ import com.o3dr.services.android.lib.drone.property.Type;
 import com.o3dr.services.android.lib.drone.property.VehicleMode;
 
 import java.util.List;
+import java.util.Vector;
 
 
 public class DronekitFragment extends Fragment implements DroneListener, TowerListener {
@@ -50,10 +51,8 @@ public class DronekitFragment extends Fragment implements DroneListener, TowerLi
     private DroneStateApi dronestate;
     private GuidedApi guide;
     private final Handler handler = new Handler();
-
     private final int DEFAULT_UDP_PORT = 14550;
     private final int DEFAULT_USB_BAUD_RATE = 57600;
-
     Spinner modeSelector;
 
     @Override
@@ -364,6 +363,24 @@ public class DronekitFragment extends Fragment implements DroneListener, TowerLi
 //            this.guide.sendGuidedPoint(this.drone,vehiclePosition,true);
 //            this.guide.pauseAtCurrentLocation(this.drone);
         }
+    }
+
+    public boolean isGPSReturn(){
+        State vehicleState = this.drone.getAttribute(AttributeType.STATE);
+        if(vehicleState.isFlying()){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public Double[] getGPSPos(){
+        Double[] gpsPos = new Double[2];
+        Gps droneGps = this.drone.getAttribute(AttributeType.GPS);
+        LatLong vehiclePosition = droneGps.getPosition();
+        gpsPos[0] = vehiclePosition.getLongitude();//获取经度
+        gpsPos[1] = vehiclePosition.getLatitude();//获取纬度
+        return  gpsPos;
     }
 
 }

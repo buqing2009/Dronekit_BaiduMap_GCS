@@ -16,7 +16,7 @@ public class MainFragment extends FragmentActivity{
 
     private FragmentTabHost mTabHost;
     private LayoutInflater layoutInflater;
-    private Class fragmentArray[] = {DronekitFragment.class,BaiduMapActivity.class};
+    private Class fragmentArray[] = {DronekitFragment.class,BaiduMapFragment.class};
     private int mImageViewArray[] = {R.drawable.tab_home_btn, R.drawable.tab_message_btn};
     private String mTextviewArray[] ={"Dronekit","BaiduMap"};
 
