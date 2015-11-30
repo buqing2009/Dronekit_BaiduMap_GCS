@@ -200,7 +200,7 @@
         </TableLayout>
 
         <Button
-            android:id="@+id/botton_up"
+            android:id="@+id/button_up"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -215,7 +215,7 @@
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/botton_up"
+            android:layout_below="@+id/button_up"
             android:layout_toLeftOf="@+id/btnConnect"
             android:layout_toStartOf="@+id/btnConnect"
             android:onClick="onDownBottonTap"

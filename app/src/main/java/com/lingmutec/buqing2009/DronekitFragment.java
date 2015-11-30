@@ -5,6 +5,7 @@ import android.content.Context;
 //import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -43,7 +44,7 @@ import java.util.List;
 import java.util.Vector;
 
 
-public class DronekitFragment extends Fragment implements DroneListener, TowerListener {
+public class DronekitFragment extends Fragment implements View.OnClickListener, DroneListener, TowerListener {
 
     private Drone drone;
     private int droneType = Type.TYPE_UNKNOWN;
@@ -86,6 +87,16 @@ public class DronekitFragment extends Fragment implements DroneListener, TowerLi
                 // Do nothing
             }
         });
+
+        Button btnConnect = (Button)getActivity().findViewById(R.id.btnConnect);
+        Button btnArmTakeOff = (Button)getActivity().findViewById(R.id.btnArmTakeOff);
+        Button button_up = (Button)getActivity().findViewById(R.id.button_up);
+        Button button_down =(Button)getActivity().findViewById(R.id.button_down);
+
+        btnConnect.setOnClickListener(this);
+        btnArmTakeOff.setOnClickListener(this);
+        button_up.setOnClickListener(this);
+        button_down.setOnClickListener(this);
     }
 
     @Override
@@ -381,6 +392,26 @@ public class DronekitFragment extends Fragment implements DroneListener, TowerLi
         gpsPos[0] = vehiclePosition.getLongitude();//获取经度
         gpsPos[1] = vehiclePosition.getLatitude();//获取纬度
         return  gpsPos;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btnConnect:
+                onBtnConnectTap(v);
+                break;
+            case R.id.btnArmTakeOff:
+                onArmButtonTap(v);
+                break;
+            case R.id.button_up:
+                onUpBottonTap(v);
+                break;
+            case R.id.button_down:
+                onDownBottonTap(v);
+                break;
+            default:
+                break;
+        }
     }
 
 }
